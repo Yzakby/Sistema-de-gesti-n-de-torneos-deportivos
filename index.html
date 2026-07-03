@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SportManager - Sistema Web</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- LOGIN -->
+    <section id="loginView" class="view active">
+      <div class="login-layout">
+        <div class="brand-panel">
+          <div class="brand-card">
+            <div class="brand-logo">⚽🏆</div>
+            <h1>SportManager</h1>
+            <p class="brand-subtitle">Sistema de Gestión de Torneos Deportivos</p>
+            <p class="brand-description">
+              Organiza torneos, administra equipos, programa partidos y registra resultados en un solo lugar.
+            </p>
+
+            <div class="brand-features">
+              <div class="feature-item">✔ Gestión de usuarios, equipos y jugadores</div>
+              <div class="feature-item">✔ Programación de partidos y resultados</div>
+              <div class="feature-item">✔ Tabla de posiciones y reportes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="login-panel">
+          <div class="form-card">
+            <h2>Iniciar Sesión</h2>
+            <p class="form-description">Ingresa tus credenciales para acceder al sistema</p>
+
+            <form id="loginForm">
+              <div class="form-group">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" placeholder="admin@sportmanager.com" required />
+              </div>
+
+              <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="********" required />
+              </div>
+
+              <div class="form-group">
+                <label for="role">Seleccionar rol</label>
+                <select id="role" required>
+                  <option value="">Seleccione un rol</option>
+                  <option value="admin">Administrador</option>
+                  <option value="organizer">Organizador</option>
+                  <option value="referee">Árbitro</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-full">Ingresar al Sistema</button>
+            </form>
+
+            <div class="demo-box">
+              <h4>Accesos de demostración</h4>
+              <ul>
+                <li><strong>Administrador:</strong> admin@sportmanager.com / 12345</li>
+                <li><strong>Organizador:</strong> organizador@sportmanager.com / 12345</li>
+                <li><strong>Árbitro:</strong> arbitro@sportmanager.com / 12345</li>
+              </ul>
+            </div>
+
+            <div id="loginMessage" class="message-box hidden"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APP -->
+    <section id="appView" class="view">
+      <div class="dashboard-layout">
+        <aside class="sidebar">
+          <div class="sidebar-header">
+            <h2>SportManager</h2>
+            <button id="mobileMenuBtn" class="menu-toggle" type="button">☰</button>
+          </div>
+
+          <nav class="sidebar-nav" id="sidebarNav">
+            <!-- Menú dinámico -->
+          </nav>
+        </aside>
+
+        <main class="main-content">
+          <header class="topbar">
+            <div>
+              <h1 id="panelTitle">Panel Principal</h1>
+              <p id="panelSubtitle">Bienvenido al sistema de gestión de torneos</p>
+            </div>
+
+            <div class="topbar-actions">
+              <div class="user-badge">
+                <span class="user-role-label">Sesión activa:</span>
+                <span id="activeRoleText">-</span>
+              </div>
+              <button id="logoutBtn" class="btn btn-danger" type="button">Cerrar Sesión</button>
+            </div>
+          </header>
+
+          <!-- PANEL ADMIN -->
+          <section id="adminPanel" class="role-panel hidden">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <span class="stat-icon">🏆</span>
+                <div>
+                  <h3 id="adminTournamentCount">2</h3>
+                  <p>Torneos Activos</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <div>
+                  <h3 id="adminTeamCount">6</h3>
+                  <p>Equipos Registrados</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">🧍</span>
+                <div>
+                  <h3 id="adminPlayerCount">18</h3>
+                  <p>Jugadores</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">📅</span>
+                <div>
+                  <h3 id="adminMatchCount">6</h3>
+                  <p>Partidos Programados</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-grid two-columns">
+              <div class="card">
+                <div class="card-header">
+                  <h3>Registrar Equipo</h3>
+                </div>
+                <form id="teamForm" class="form-grid">
+                  <div class="form-group">
+                    <label for="teamName">Nombre del equipo</label>
+                    <input type="text" id="teamName" placeholder="Ej: Deportivo Norte" />
+                  </div>
+                  <div class="form-group">
+                    <label for="teamCoach">Entrenador</label>
+                    <input type="text" id="teamCoach" placeholder="Ej: Carlos Pérez" />
+                  </div>
+                  <div class="form-group">
+                    <label for="teamCategory">Categoría</label>
+                    <input type="text" id="teamCategory" placeholder="Ej: Juvenil" />
+                  </div>
+                  <div class="form-group">
+                    <label for="teamTournament">Torneo</label>
+                    <select id="teamTournament">
+                      <option value="">Seleccione un torneo</option>
+                    </select>
+                  </div>
+                  <div class="form-actions full-width">
+                    <button type="submit" class="btn btn-primary">Guardar Equipo</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3>Registrar Jugador</h3>
+                </div>
+                <form id="playerForm" class="form-grid">
+                  <div class="form-group">
+                    <label for="playerName">Nombre del jugador</label>
+                    <input type="text" id="playerName" placeholder="Ej: Luis Martínez" />
+                  </div>
+                  <div class="form-group">
+                    <label for="playerAge">Edad</label>
+                    <input type="number" id="playerAge" placeholder="18" min="5" max="60" />
+                  </div>
+                  <div class="form-group">
+                    <label for="playerPosition">Posición</label>
+                    <input type="text" id="playerPosition" placeholder="Ej: Delantero" />
+                  </div>
+                  <div class="form-group">
+                    <label for="playerTeam">Equipo</label>
+                    <select id="playerTeam">
+                      <option value="">Seleccione un equipo</option>
+                    </select>
+                  </div>
+                  <div class="form-actions full-width">
+                    <button type="submit" class="btn btn-primary">Guardar Jugador</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="content-grid two-columns">
+              <div class="card">
+                <div class="card-header">
+                  <h3>Crear Torneo</h3>
+                </div>
+                <form id="tournamentForm" class="form-grid">
+                  <div class="form-group">
+                    <label for="tournamentName">Nombre del torneo</label>
+                    <input type="text" id="tournamentName" placeholder="Ej: Copa Local 2026" />
+                  </div>
+                  <div class="form-group">
+                    <label for="tournamentSport">Deporte</label>
+                    <select id="tournamentSport">
+                      <option value="">Seleccione deporte</option>
+                      <option>Fútbol</option>
+                      <option>Baloncesto</option>
+                      <option>Voleibol</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="tournamentCategory">Categoría</label>
+                    <input type="text" id="tournamentCategory" placeholder="Ej: Sub-20" />
+                  </div>
+                  <div class="form-group">
+                    <label for="tournamentStart">Fecha de inicio</label>
+                    <input type="date" id="tournamentStart" />
+                  </div>
+                  <div class="form-group">
+                    <label for="tournamentEnd">Fecha de fin</label>
+                    <input type="date" id="tournamentEnd" />
+                  </div>
+                  <div class="form-actions full-width">
+                    <button type="submit" class="btn btn-primary">Crear Torneo</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3>Programar Partido</h3>
+                </div>
+                <form id="matchForm" class="form-grid">
+                  <div class="form-group">
+                    <label for="matchTournament">Torneo</label>
+                    <select id="matchTournament">
+                      <option value="">Seleccione un torneo</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="matchTeamA">Equipo local</label>
+                    <select id="matchTeamA">
+                      <option value="">Seleccione equipo</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="matchTeamB">Equipo visitante</label>
+                    <select id="matchTeamB">
+                      <option value="">Seleccione equipo</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="matchDate">Fecha</label>
+                    <input type="date" id="matchDate" />
+                  </div>
+                  <div class="form-group">
+                    <label for="matchTime">Hora</label>
+                    <input type="time" id="matchTime" />
+                  </div>
+                  <div class="form-group">
+                    <label for="matchVenue">Cancha / Lugar</label>
+                    <input type="text" id="matchVenue" placeholder="Ej: Cancha 1" />
+                  </div>
+                  <div class="form-actions full-width">
+                    <button type="submit" class="btn btn-primary">Programar Partido</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="content-grid two-columns">
+              <div class="card">
+                <div class="card-header">
+                  <h3>Equipos Registrados</h3>
+                </div>
+                <div class="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Equipo</th>
+                        <th>Entrenador</th>
+                        <th>Categoría</th>
+                        <th>Torneo</th>
+                      </tr>
+                    </thead>
+                    <tbody id="teamsTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3>Próximos Partidos</h3>
+                </div>
+                <div class="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Partido</th>
+                        <th>Cancha</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody id="matchesTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- PANEL ORGANIZADOR -->
+          <section id="organizerPanel" class="role-panel hidden">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <span class="stat-icon">🏆</span>
+                <div>
+                  <h3 id="organizerTournamentCount">2</h3>
+                  <p>Torneos Activos</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <div>
+                  <h3 id="organizerTeamCount">6</h3>
+                  <p>Equipos</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">⚽</span>
+                <div>
+                  <h3 id="organizerPlayedMatches">2</h3>
+                  <p>Partidos Jugados</p>
+                </div>
+              </div>
+              <div class="stat-card">
+                <span class="stat-icon">📌</span>
+                <div>
+                  <h3 id="organizerPendingMatches">4</h3>
+                  <p>Partidos Pendientes</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-grid two-columns">
+              <div class="card">
+                <div class="card-header">
+                  <h3>Torneos Activos</h3>
+                </div>
+                <div id="tournamentsCards" class="mini-cards-grid"></div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3>Tabla de Posiciones</h3>
+                </div>
+                <div class="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Pos</th>
+                        <th>Equipo</th>
+                        <th>PJ</th>
+                        <th>PG</th>
+                        <th>PE</th>
+                        <th>PP</th>
+                        <th>Pts</th>
+                      </tr>
+                    </thead>
+                    <tbody id="standingsTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3>Calendario de Partidos</h3>
+              </div>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Hora</th>
+                      <th>Local</th>
+                      <th>Visitante</th>
+                      <th>Cancha</th>
+                      <th>Estado</th>
+                    </tr>
+                  </thead>
+                  <tbody id="organizerMatchesTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- PANEL ÁRBITRO -->
+          <section id="refereePanel" class="role-panel hidden">
+            <div class="content-grid two-columns">
+              <div class="card">
+                <div class="card-header">
+                  <h3>Mis Partidos Asignados</h3>
+                </div>
+                <div class="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Partido</th>
+                        <th>Torneo</th>
+                        <th>Cancha</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                      </tr>
+                    </thead>
+                    <tbody id="refereeMatchesTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3>Registrar Resultado</h3>
+                </div>
+                <form id="resultForm" class="form-grid">
+                  <div class="form-group">
+                    <label for="resultMatch">Partido</label>
+                    <select id="resultMatch">
+                      <option value="">Seleccione un partido</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="scoreA">Marcador Local</label>
+                    <input type="number" id="scoreA" min="0" placeholder="0" />
+                  </div>
+                  <div class="form-group">
+                    <label for="scoreB">Marcador Visitante</label>
+                    <input type="number" id="scoreB" min="0" placeholder="0" />
+                  </div>
+                  <div class="form-group">
+                    <label for="resultStatus">Estado</label>
+                    <select id="resultStatus">
+                      <option value="Finalizado">Finalizado</option>
+                    </select>
+                  </div>
+                  <div class="form-actions full-width">
+                    <button type="submit" class="btn btn-success">Guardar Resultado</button>
+                  </div>
+                </form>
+
+                <div class="info-box">
+                  Registra únicamente resultados oficiales válidos del torneo.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div id="globalMessage" class="message-box hidden"></div>
+        </main>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
